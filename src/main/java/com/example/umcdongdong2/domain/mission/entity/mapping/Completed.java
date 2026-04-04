@@ -31,5 +31,6 @@ public class Completed {
         this.id = new CompletedId(mission.getId(), user.getId());
         this.mission = mission;
         this.user = user;
+
     }
 }
