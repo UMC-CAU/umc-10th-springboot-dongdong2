@@ -26,6 +26,6 @@ public class Restaurant {
     @Column(nullable = false, unique = true)
     private String owner_id;
 
-    @OneToMany(mappedBy = "id_restaurant")
+    @OneToMany(mappedBy = "restaurant")
     private List<Review> reviewList = new ArrayList<>();
 }
