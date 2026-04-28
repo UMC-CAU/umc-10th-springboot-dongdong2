@@ -1,6 +1,5 @@
 package com.example.umcdongdong2.domain.review.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,23 +11,19 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Restaurant {
+public class Reply {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false, unique = true)
-    private String ownerId;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_region", nullable = false)
-    private Region region;
+    @JoinColumn(name = "id_review", nullable = false)
+    private Review review;
+
 
 
 }

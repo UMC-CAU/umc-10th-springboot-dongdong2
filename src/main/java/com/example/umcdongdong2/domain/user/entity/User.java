@@ -1,6 +1,6 @@
 package com.example.umcdongdong2.domain.user.entity;
 
-import com.example.umcdongdong2.domain.mission.entity.mapping.Completed;
+import com.example.umcdongdong2.domain.mission.entity.mapping.UserMission;
 import com.example.umcdongdong2.domain.review.entity.Review;
 import com.example.umcdongdong2.domain.user.entity.mapping.FoodTaste;
 import jakarta.persistence.*;
@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int gender;
 
     @Column(nullable = false)
@@ -35,14 +36,14 @@ public class User {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = true)
-    private LocalDate created_at;
+    @Column(nullable = false)
+    private LocalDateTime created_at;
 
     @Column(nullable = false)
-    private LocalDate updated_at;
+    private LocalDateTime updated_at;
 
     @Column(nullable = true)
-    private LocalDate deleted_at;
+    private LocalDateTime deleted_at;
 
     @Column(nullable = false)
     private Boolean notice_marketing;
@@ -60,6 +61,6 @@ public class User {
     private List<FoodTaste> foodTasteList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Completed> completedList = new ArrayList<>();
+    private List<UserMission> userMissionList = new ArrayList<>();
 
 }
