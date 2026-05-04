@@ -9,6 +9,7 @@ import com.example.umcdongdong2.domain.review.dto.RestaurantReviewListResDTO;
 import com.example.umcdongdong2.domain.review.dto.RestaurantReviewPhotoListReqDTO;
 import com.example.umcdongdong2.domain.review.dto.RestaurantReviewPhotoListResDTO;
 import com.example.umcdongdong2.domain.review.exception.code.ReviewSuccessCode;
+import com.example.umcdongdong2.domain.review.service.ReviewService;
 import com.example.umcdongdong2.global.apiPayload.ApiResponse;
 import com.example.umcdongdong2.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ReviewController {
 
-//    private final ReviewService reviewService;
+    private final ReviewService reviewService;
 
     @GetMapping("/restaurants/{restaurantId}/")
     public ApiResponse<RestaurantInfoResDTO.RestaurantInfoResponse> getRestaurantInfo(
@@ -72,7 +73,6 @@ public class ReviewController {
     ) {
         BaseSuccessCode code = ReviewSuccessCode.OK;
 
-        return null;
-//        return ApiResponse.onSuccess(code, reviewService.createRestaurantReview(authorization, restaurantId, dto));
+        return ApiResponse.onSuccess(code, reviewService.createReview(dto));
     }
 }

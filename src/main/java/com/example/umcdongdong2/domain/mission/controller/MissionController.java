@@ -1,5 +1,7 @@
 package com.example.umcdongdong2.domain.mission.controller;
 
+import com.example.umcdongdong2.domain.mission.dto.MissionListReqDTO;
+import com.example.umcdongdong2.domain.mission.dto.MissionListResDTO;
 import com.example.umcdongdong2.domain.mission.dto.MissionVerificationReqDTO;
 import com.example.umcdongdong2.domain.mission.dto.MissionVerificationRequestReqDTO;
 import com.example.umcdongdong2.domain.mission.dto.MissionVerificationRequestResDTO;
@@ -7,6 +9,7 @@ import com.example.umcdongdong2.domain.mission.dto.MissionVerificationResDTO;
 import com.example.umcdongdong2.domain.mission.dto.UserMissionsReqDTO;
 import com.example.umcdongdong2.domain.mission.dto.UserMissionsResDTO;
 import com.example.umcdongdong2.domain.mission.exception.code.MissionSuccessCode;
+import com.example.umcdongdong2.domain.mission.service.MissionService;
 import com.example.umcdongdong2.global.apiPayload.ApiResponse;
 import com.example.umcdongdong2.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class MissionController {
 
-//    private final MissionService missionService;
+    private final MissionService missionService;
 
     @GetMapping("/user-missions/")
     public ApiResponse<UserMissionsResDTO.UserMissionsResponse> getUserMissions(
@@ -33,8 +36,17 @@ public class MissionController {
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;
 
-        return null;
-//        return ApiResponse.onSuccess(code, missionService.getUserMissions(authorization, dto));
+
+        return ApiResponse.onSuccess(code, missionService.getUserMissions(authorization, dto));
+    }
+
+    @GetMapping("/missions/")
+    public ApiResponse<MissionListResDTO.MissionListResponse> getMissionList(
+            @ModelAttribute MissionListReqDTO.MissionListRequest dto
+    ) {
+        BaseSuccessCode code = MissionSuccessCode.OK;
+
+        return ApiResponse.onSuccess(code, missionService.getMissionList(dto));
     }
 
     @PostMapping("/user-missions/{missionId}/verification-requests/")

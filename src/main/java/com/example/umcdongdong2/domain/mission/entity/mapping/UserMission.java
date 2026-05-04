@@ -25,10 +25,15 @@ public class UserMission {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(nullable = false)
+    private boolean completed;
+
+
     @Builder
-    public UserMission(Mission mission, User user) {
+    public UserMission(Mission mission, User user, boolean completed) {
         this.mission = mission;
         this.user = user;
+        this.completed = completed;
 
     }
 }
