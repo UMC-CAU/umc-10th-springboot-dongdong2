@@ -1,5 +1,6 @@
-package com.example.umcdongdong2.domain.mission.entity;
+package com.example.umcdongdong2.domain.review.entity;
 
+import com.example.umcdongdong2.domain.mission.entity.Mission;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class Region {
     private String name;
 
     @OneToMany(mappedBy = "region")
-    private List<Mission> missionList = new ArrayList<>();
+    private List<Restaurant> restaurantList = new ArrayList<>();
 
     @Builder
     public Region(String name) {

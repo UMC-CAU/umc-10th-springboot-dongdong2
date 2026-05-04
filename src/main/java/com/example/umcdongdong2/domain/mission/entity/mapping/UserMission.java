@@ -11,24 +11,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Completed {
+public class UserMission {
 
-    @EmbeddedId
-    private CompletedId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("missionId")
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
-    public Completed(Mission mission, User user) {
-        this.id = new CompletedId(mission.getId(), user.getId());
+    public UserMission(Mission mission, User user) {
         this.mission = mission;
         this.user = user;
 

@@ -12,24 +12,27 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"id_food", "id_user"})
+        }
+)
 public class FoodTaste {
 
-    @EmbeddedId
-    private FoodTasteId foodTasteId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("id_food")
-    @JoinColumn(name = "id_food")
+    @JoinColumn(name = "id_food", nullable = false)
     private Food food;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("id_user")
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
     @Builder
     public FoodTaste(Food food, User user) {
-        this.foodTasteId = new FoodTasteId(food.getId(), user.getId());
         this.food = food;
         this.user = user;
     }
