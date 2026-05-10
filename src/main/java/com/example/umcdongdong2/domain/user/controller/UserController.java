@@ -1,14 +1,8 @@
 package com.example.umcdongdong2.domain.user.controller;
 
-import com.example.umcdongdong2.domain.user.dto.UserLoginReqDTO;
-import com.example.umcdongdong2.domain.user.dto.UserLoginResDTO;
-import com.example.umcdongdong2.domain.user.dto.UserNotificationsReqDTO;
-import com.example.umcdongdong2.domain.user.dto.UserNotificationsResDTO;
-import com.example.umcdongdong2.domain.user.dto.UserPointsReqDTO;
-import com.example.umcdongdong2.domain.user.dto.UserPointsResDTO;
-import com.example.umcdongdong2.domain.user.dto.UserSignupReqDTO;
-import com.example.umcdongdong2.domain.user.dto.UserSignupResDTO;
+import com.example.umcdongdong2.domain.user.dto.*;
 import com.example.umcdongdong2.domain.user.exception.code.UserSuccessCode;
+import com.example.umcdongdong2.domain.user.service.UserService;
 import com.example.umcdongdong2.global.apiPayload.ApiResponse;
 import com.example.umcdongdong2.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class UserController {
 
-//    private final UserService userService;
+    private final UserService userService;
 
     @PostMapping("/auth/signup/")
     public ApiResponse<UserSignupResDTO.UserSignupResponse> signup(
@@ -67,5 +61,15 @@ public class UserController {
 
         return null;
 //        return ApiResponse.onSuccess(code, userService.getNotifications(authorization, dto));
+    }
+
+    @GetMapping("/users/my-page")
+    public ApiResponse<UserMypageResDTO.UserMypageResponse> getMyPage(
+            @RequestHeader("Authorization") String authorization,
+            @ModelAttribute UserMypageReqDTO.UserMypageRequest dto
+    ){
+        BaseSuccessCode code = UserSuccessCode.OK;
+
+        return ApiResponse.onSuccess(code, userService.getMyPage(dto));
     }
 }
