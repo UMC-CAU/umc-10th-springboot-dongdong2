@@ -6,6 +6,7 @@ public class UserMissionsReqDTO {
 
     @Builder
     public record UserMissionsRequest(
+            Long userId,
             Long restaurantId,
             String filter,
             Long page,

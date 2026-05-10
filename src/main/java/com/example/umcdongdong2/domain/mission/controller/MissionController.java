@@ -31,7 +31,7 @@ public class MissionController {
 
     @GetMapping("/user-missions/")
     public ApiResponse<UserMissionsResDTO.UserMissionsResponse> getUserMissions(
-            @RequestHeader("Authorization") String authorization,
+            @RequestHeader(value = "Authorization", required = false) String authorization,
             @ModelAttribute UserMissionsReqDTO.UserMissionsRequest dto
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;

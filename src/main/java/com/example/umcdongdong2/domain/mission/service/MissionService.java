@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,23 +25,24 @@ public class MissionService {
     ){
 
 
-        Long userId = 10L;
+        PageRequest pageRequest = PageRequest.of(dto.page().intValue(),
+                                                dto.size().intValue(),
+                                                Sort.by("id").descending());
+
+        Page<UserMissionsResDTO.Mission> missionsPage = missionRepository.findMissionsByUserIdAndRestaurantId(
+                dto.userId(), dto.restaurantId(), dto.filter(), pageRequest);
 
 
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<UserMissionsResDTO.Mission> missionPage =
-                missionRepository.findMissionsByUserIdAndRestaurantId(
-                        userId, dto.restaurantId(), dto.filter(), pageable
-                );
 
 
+
+        // 오프셋 기반 페이지네이션
         return UserMissionsResDTO.UserMissionsResponse.builder()
-                .missions(missionPage.getContent())
-                .page(missionPage.getNumber())
-                .size(missionPage.getSize())
-                .totalElements(missionPage.getTotalElements())
-                .totalPages(missionPage.getTotalPages())
-                .hasNext(missionPage.hasNext())
+                .missions(missionsPage.getContent())
+                .page(missionsPage.getNumber())
+                .size(missionsPage.getSize())
+                .totalPages(missionsPage.getTotalPages())
+                .totalElements(missionsPage.getTotalElements())
                 .build();
 
     }
@@ -52,6 +54,7 @@ public class MissionService {
         Page<MissionListResDTO.Mission> missionPage =
                 missionRepository.findMissionListByRegionId(dto.regionId(), pageable);
 
+        //
         return MissionListResDTO.MissionListResponse.builder()
                 .missions(missionPage.getContent())
                 .page(missionPage.getNumber())

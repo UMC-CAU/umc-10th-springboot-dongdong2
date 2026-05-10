@@ -5,5 +5,7 @@ import lombok.Builder;
 public class RestaurantReviewListReqDTO {
 
     @Builder
-    public record RestaurantReviewListRequest() {}
+    public record RestaurantReviewListRequest(
+
+    ) {}
 }

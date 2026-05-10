@@ -13,6 +13,7 @@ public class RestaurantReviewListResDTO {
             String content
     ) {}
 
+    // 6주차 구현
     @Builder
     public record RestaurantReviewListResponse(
             List<Review> reviews,
@@ -22,4 +23,14 @@ public class RestaurantReviewListResDTO {
             Integer totalPages,
             Boolean hasNext
     ) {}
+
+    // 7주차 변경
+    // 페이지네이션 틀
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ){}
 }
