@@ -5,6 +5,9 @@ import lombok.Builder;
 public class UserSignupResDTO {
 
     @Builder
-    public record UserSignupResponse(String userId){}
+    public record UserSignupResponse(
+            Long userId,
+            String email
+    ){}
 
 }
