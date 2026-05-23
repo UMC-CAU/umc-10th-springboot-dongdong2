@@ -27,8 +27,7 @@ public class UserController {
     ) {
         BaseSuccessCode code = UserSuccessCode.OK;
 
-        return null;
-//        return ApiResponse.onSuccess(code, userService.signup(dto));
+        return ApiResponse.onSuccess(code, userService.signup(dto));
     }
 
     @PostMapping("/auth/login/")

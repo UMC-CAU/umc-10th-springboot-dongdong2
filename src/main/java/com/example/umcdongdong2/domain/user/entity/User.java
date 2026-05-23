@@ -5,6 +5,7 @@ import com.example.umcdongdong2.domain.review.entity.Review;
 import com.example.umcdongdong2.domain.user.entity.mapping.FoodTaste;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,9 @@ public class User {
 
     @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column(nullable = false)
     private int gender;
@@ -63,4 +67,19 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserMission> userMissionList = new ArrayList<>();
 
+    @Builder
+    public User(String name, String email, String password, int gender, String birth, String address, Boolean notice_marketing) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.birth = birth;
+        this.address = address;
+        this.created_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
+        this.notice_marketing = notice_marketing;
+        // 구현 화면에 없으니 기본값으로 true 저장
+        this.notice_reply_review = true;
+        this.notice_reply_qna = true;
+    }
 }
