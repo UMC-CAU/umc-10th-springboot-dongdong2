@@ -6,6 +6,8 @@ import com.example.umcdongdong2.domain.user.service.UserService;
 import com.example.umcdongdong2.global.apiPayload.ApiResponse;
 import com.example.umcdongdong2.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,8 +38,7 @@ public class UserController {
     ) {
         BaseSuccessCode code = UserSuccessCode.OK;
 
-        return null;
-//        return ApiResponse.onSuccess(code, userService.login(dto));
+        return ApiResponse.onSuccess(code, userService.login(dto));
     }
 
     @GetMapping("/users/points/")
@@ -64,11 +65,10 @@ public class UserController {
 
     @GetMapping("/users/my-page")
     public ApiResponse<UserMypageResDTO.UserMypageResponse> getMyPage(
-            @RequestHeader("Authorization") String authorization,
-            @ModelAttribute UserMypageReqDTO.UserMypageRequest dto
+            @AuthenticationPrincipal UserDetails userDetails
     ){
         BaseSuccessCode code = UserSuccessCode.OK;
 
-        return ApiResponse.onSuccess(code, userService.getMyPage(dto));
+        return ApiResponse.onSuccess(code, userService.getMyPage(userDetails.getUsername()));
     }
 }

@@ -1,11 +1,13 @@
 package com.example.umcdongdong2.domain.user.service;
 
-import com.example.umcdongdong2.domain.user.dto.UserMypageReqDTO;
+import com.example.umcdongdong2.domain.user.dto.UserLoginReqDTO;
+import com.example.umcdongdong2.domain.user.dto.UserLoginResDTO;
 import com.example.umcdongdong2.domain.user.dto.UserMypageResDTO;
 import com.example.umcdongdong2.domain.user.dto.UserSignupReqDTO;
 import com.example.umcdongdong2.domain.user.dto.UserSignupResDTO;
 import com.example.umcdongdong2.domain.user.entity.User;
 import com.example.umcdongdong2.domain.user.repository.UserRepository;
+import com.example.umcdongdong2.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +23,7 @@ import java.util.Collections;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public UserSignupResDTO.UserSignupResponse signup(UserSignupReqDTO.UserSignupRequest dto) {
@@ -46,6 +49,23 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
+    public UserLoginResDTO.UserLoginResponse login(UserLoginReqDTO.UserLoginRequest dto) {
+        User user = userRepository.findByEmail(dto.id())
+                .orElseThrow(() -> new IllegalArgumentException("이메일 또는 비밀번호가 올바르지 않습니다."));
+
+        if (!passwordEncoder.matches(dto.pw(), user.getPassword())) {
+            throw new IllegalArgumentException("이메일 또는 비밀번호가 올바르지 않습니다.");
+        }
+
+        String accessToken = jwtUtil.createAccessToken(user.getEmail());
+
+        return UserLoginResDTO.UserLoginResponse.builder()
+                .accessToken(accessToken)
+                .userId(user.getId())
+                .build();
+    }
+
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -61,10 +81,10 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public UserMypageResDTO.UserMypageResponse getMyPage(UserMypageReqDTO.UserMypageRequest dto){
-        Long id = 10L; //placeholder
-        User user =  userRepository.findById(id).get();
-
+    @Transactional(readOnly = true)
+    public UserMypageResDTO.UserMypageResponse getMyPage(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         return UserMypageResDTO.UserMypageResponse.builder()
                         .userId(user.getId())
