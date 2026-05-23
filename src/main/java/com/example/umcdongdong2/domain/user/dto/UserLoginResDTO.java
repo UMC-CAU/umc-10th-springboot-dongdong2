@@ -7,7 +7,6 @@ public class UserLoginResDTO {
     @Builder
     public record UserLoginResponse(
             String accessToken,
-            String refreshToken,
             Long userId
     ) {}
 }
